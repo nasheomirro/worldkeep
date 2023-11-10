@@ -10,7 +10,7 @@
 
 	onMount(() => {
 		editor = createEditor(containerRef);
-		return () => editor.destroy();
+		return () => $editor.view.destroy();
 	});
 </script>
 
