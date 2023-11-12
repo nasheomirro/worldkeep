@@ -15,11 +15,24 @@
 </script>
 
 <ul>
+	<!-- default browser behavior should be prevented to maintain user selection -->
 	<li>
-		<button on:click={() => editor.command(toggleStrong)} class:active={isStrong}> strong </button>
+		<button
+			on:mousedown|preventDefault
+			on:click|preventDefault={() => editor.command(toggleStrong)}
+			class:active={isStrong}
+		>
+			strong
+		</button>
 	</li>
 	<li>
-		<button on:click={() => editor.command(toggleEm)} class:active={isEm}> em </button>
+		<button
+			on:mousedown|preventDefault
+			on:click|preventDefault={() => editor.command(toggleEm)}
+			class:active={isEm}
+		>
+			em
+		</button>
 	</li>
 </ul>
 
