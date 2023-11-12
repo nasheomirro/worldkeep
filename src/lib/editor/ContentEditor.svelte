@@ -9,20 +9,26 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { ProseEditor } from './types';
 	import { Node as EditorNode } from 'prosemirror-model';
+	import type { DocumentNote } from '$lib/app/types';
+	import { updateDocumentWithRootNode } from './utils';
 
-	export let documentObject: object | undefined = undefined;
+	/**
+	 * The initial document note to read content from,
+	 * The component won't react to any changes after mounting.
+	 */
+	export let document: DocumentNote;
 
 	let editorContainer: Node;
 	let editor: ProseEditor;
 
 	const dispatchEvent = createEventDispatcher<{
-		save: object;
+		save: DocumentNote;
 	}>();
 
 	// TODO: implement debouncing for implicit saves, for explicit saves dispatch immediately.
-	const dispatchSave = (document: EditorNode) => {
-		const content = document.toJSON();
-		dispatchEvent('save', content);
+	const dispatchSave = (rootNode: EditorNode) => {
+		const updatedDocument = updateDocumentWithRootNode(document, rootNode);
+		dispatchEvent('save', updatedDocument);
 	};
 
 	// once mounted, we're able to then mount the ProseMirror
@@ -30,7 +36,7 @@
 	onMount(() => {
 		let state = EditorState.create({
 			schema,
-			doc: documentObject ? EditorNode.fromJSON(schema, documentObject) : undefined,
+			doc: document?.content ? EditorNode.fromJSON(schema, document.content) : undefined,
 			plugins: [
 				keymap(baseKeymap),
 				keymap({

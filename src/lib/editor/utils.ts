@@ -1,5 +1,6 @@
+import type { DocumentNote } from '$lib/app/types';
 import { toggleMark as _toggleMark } from 'prosemirror-commands';
-import type { Mark, MarkType } from 'prosemirror-model';
+import type { Mark, MarkType, Node as EditorNode } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
 
 /**
@@ -26,4 +27,19 @@ export function getAllActiveMarkTypes(state: EditorState) {
 
 		return Array.from(activeMarkTypes);
 	}
+}
+
+export function updateDocumentWithRootNode(oldNote: DocumentNote, doc: EditorNode): DocumentNote {
+	const content = doc.toJSON();
+	const title = doc.firstChild?.textContent || '';
+	const description = doc.maybeChild(1)?.textContent || '';
+	const updatedAt = new Date().toUTCString();
+
+	return {
+		...oldNote,
+		content,
+		title,
+		description,
+		updatedAt
+	};
 }
