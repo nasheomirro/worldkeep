@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Editor from "$lib/editor/Editor.svelte";
+	import DocumentView from "$lib/document-view/DocumentView.svelte";
 </script>
 
-<Editor />
+<DocumentView />

@@ -1,23 +1,26 @@
+<!-- The component responsible for communicating with the global store. -->
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { createEditor, type EditorStore } from '.';
-
-	import 'prosemirror-view/style/prosemirror.css';
+	import { documents } from '$lib/app/documents';
+	import { findDocument } from '$lib/app/utils';
+	import ContentEditor from './ContentEditor.svelte';
 	import EditorMenu from './EditorMenu.svelte';
 
-	let containerRef: Node;
-	let editor: EditorStore;
+	/** the id of the object to open */
+	export let documentId: string;
+	$: activeDocument = findDocument($documents, documentId);
 
-	onMount(() => {
-		editor = createEditor(containerRef);
-		return () => $editor.view.destroy();
-	});
+	const saveDocumentContent = (content: object) => {
+		if (activeDocument) {
+			documents.updateDocument({
+				...activeDocument,
+				content
+			});
+		}
+	};
 </script>
 
-<div>
-	{#if editor}
+{#if activeDocument}
+	<ContentEditor documentObject={activeDocument.content} on:save={saveDocumentContent} let:editor>
 		<EditorMenu {editor} />
-	{/if}
-	<!-- where prosemirror will attach itself -->
-	<div bind:this={containerRef} />
-</div>
+	</ContentEditor>
+{/if}
