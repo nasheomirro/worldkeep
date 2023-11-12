@@ -14,7 +14,7 @@
 
 	/**
 	 * The initial document note to read content from,
-	 * The component won't react to any changes after mounting.
+	 * note that there is no binding going on with `document`, it is just used as initial value.
 	 */
 	export let document: DocumentNote;
 
@@ -22,6 +22,7 @@
 	let editor: ProseEditor;
 
 	const dispatchEvent = createEventDispatcher<{
+		/** spits out an updated `DocumentNote` from the editor. */
 		save: DocumentNote;
 	}>();
 

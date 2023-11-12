@@ -11,7 +11,7 @@
 
 	$: activeDocument = findDocument($documents, documentId);
 
-	const saveUpdatedDocument = (event: CustomEvent<DocumentNote>) => {
+	const saveDocumentFromEditor = (event: CustomEvent<DocumentNote>) => {
 		if (activeDocument) {
 			documents.updateDocument({
 				...activeDocument,
@@ -22,7 +22,7 @@
 </script>
 
 {#if activeDocument}
-	<ContentEditor document={activeDocument} on:save={saveUpdatedDocument} let:editor>
+	<ContentEditor document={activeDocument} on:save={saveDocumentFromEditor} let:editor>
 		<EditorMenu {editor} />
 	</ContentEditor>
 {/if}
