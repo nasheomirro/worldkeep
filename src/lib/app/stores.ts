@@ -7,11 +7,6 @@ const worldDataStore = await createWorldDataStore();
 /** the `store` will act as a `reactive` wrapper around the db. */
 const documentStore = writable<DocumentNote[]>([]);
 
-/**
- * sets current `db` connection to one with `id`. If a connection is opened,
- * the opened `db` will try to populate `documents` with the world's documents.
- * Will return true if the operation is successful.
- */
 async function setWorldTo(id: string) {
 	const wasFoundAndOpened = await worldDataStore.setCurrentWorld(id);
 	if (wasFoundAndOpened) {
@@ -67,8 +62,17 @@ function deleteDocument(id: string) {
 
 export const worlds = {
 	subscribe: worldDataStore.subscribe,
+	/** creates world record, note that it doesn't open the `db` yet. */
 	createWorld: worldDataStore.createWorldData,
-	deleteWorld: worldDataStore.createWorldData,
+	/** deletes world record and associated `db`. */
+	deleteWorld: worldDataStore.deleteWorldData,
+	/** closes any connections open to the `db` and sets `currentId` to null. */
+	closeWorld: worldDataStore.closeCurrentWorld,
+	/**
+	 * sets current `db` connection to one with `id`. If a connection is opened,
+	 * the opened `db` will try to populate `documents` with the world's documents.
+	 * Will return true if the operation is successful.
+	 */
 	setWorldTo
 };
 

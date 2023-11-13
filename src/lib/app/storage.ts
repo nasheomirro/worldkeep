@@ -8,7 +8,7 @@ import type { WorldDB, WorldDataStore, WorldDataDB, WorldData } from './types';
  */
 const _unsafe_currentDb: { db: IDBPDatabase<WorldDB> | undefined } = { db: undefined };
 
-export function openWorldDataDB() {
+function openWorldDataDB() {
 	return openDB<WorldDataDB>('worldnames', 1, {
 		upgrade(db) {
 			db.createObjectStore('worlds', { keyPath: 'id' });
@@ -16,7 +16,7 @@ export function openWorldDataDB() {
 	});
 }
 
-export function openWorldDB(worldName: string) {
+function openWorldDB(worldName: string) {
 	return openDB<WorldDB>(worldName, 1, {
 		upgrade(db) {
 			db.createObjectStore('documents', { keyPath: 'id' });
@@ -52,6 +52,13 @@ export async function createWorldDataStore() {
 		}
 	}
 
+	/** closes current `db` connection if there are any, and sets `currentId` to `null`. */
+	async function closeCurrentWorld() {
+		_unsafe_currentDb.db?.close();
+		store.update((state) => ({ ...state, currentId: null }));
+	}
+
+	/** removes world data from store and deletes the associated database. */
 	async function deleteWorldData(id: string) {
 		let { worlds, currentId } = get(store);
 		if (currentId === id) {
@@ -68,6 +75,7 @@ export async function createWorldDataStore() {
 		}));
 	}
 
+	/** creates an empty world data object, note that this doesn't open a DB connection. */
 	async function createWorldData(id: string) {
 		const emptyWorldData: WorldData = {
 			id,
@@ -96,6 +104,7 @@ export async function createWorldDataStore() {
 		setCurrentWorld,
 		createWorldData,
 		deleteWorldData,
+		closeCurrentWorld,
 		usedb
 	};
 }

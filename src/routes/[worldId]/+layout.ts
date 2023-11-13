@@ -7,9 +7,9 @@ export const load = (async ({ params }) => {
 	const { worlds } = await import('$lib/app/stores');
 
 	const worldId = params.worldId;
-	const successful = await worlds.setWorldTo(worldId);
+	const isWorldSet = await worlds.setWorldTo(worldId);
 
-	if (!successful) {
+	if (!isWorldSet) {
 		throw error(404, {
 			message: "Something went wrong, either the world is 'corrupted' or it doesn't exist."
 		});
