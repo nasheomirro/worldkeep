@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { documents } from '$lib/app/documents';
+	import { documents } from '$lib/app/stores';
 	import { nanoid } from 'nanoid';
 </script>
 

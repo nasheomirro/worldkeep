@@ -9,6 +9,26 @@ export type DocumentNote = {
 	readonly id: string;
 };
 
+export type WorldData = {
+	readonly name: string;
+	readonly id: string;
+	readonly createdAt: Date;
+	readonly updatedAt: Date;
+};
+
+export type WorldDataStore = {
+	/** the index of the current world being used. */
+	currentId: string | null; 
+	worlds: WorldData[];
+};
+
+export interface WorldDataDB extends DBSchema {
+	worlds: {
+		key: string;
+		value: WorldData;
+	};
+}
+
 export interface WorldDB extends DBSchema {
 	documents: {
 		key: string;

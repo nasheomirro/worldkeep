@@ -1,9 +1,9 @@
 <!-- The component responsible for communicating with the global store. -->
 <script lang="ts">
-	import { documents } from '$lib/app/documents';
+	import { documents } from '$lib/app/stores';
 	import type { DocumentNote } from '$lib/app/types';
 	import { findDocument } from '$lib/app/utils';
-	import ContentEditor from './ContentEditor.svelte';
+	import ContentEditor from './ProseEditor.svelte';
 	import EditorMenu from './EditorMenu.svelte';
 
 	/** the id of the object to open */
