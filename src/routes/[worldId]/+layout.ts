@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import type { LayoutLoad } from './$types';
 
 export const load = (async ({ params }) => {
 	// if the page is opened directly, SSR won't call load functions
@@ -14,4 +14,4 @@ export const load = (async ({ params }) => {
 			message: "Something went wrong, either the world is 'corrupted' or it doesn't exist."
 		});
 	}
-}) satisfies PageLoad;
+}) satisfies LayoutLoad;

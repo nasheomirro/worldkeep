@@ -11,6 +11,7 @@
 	import { Node as EditorNode } from 'prosemirror-model';
 	import type { DocumentNote } from '$lib/app/types';
 	import { updateDocumentWithRootNode } from './utils';
+	import { toggleHeading } from './commands';
 
 	/**
 	 * The initial document note to read content from,
@@ -46,7 +47,13 @@
 					'Mod-s': (state) => {
 						dispatchSave(state.doc);
 						return true;
-					}
+					},
+					'Mod-shift-1': toggleHeading(1),
+					'Mod-shift-2': toggleHeading(2),
+					'Mod-shift-3': toggleHeading(3),
+					'Mod-shift-4': toggleHeading(4),
+					'Mod-shift-5': toggleHeading(5),
+					'Mod-shift-6': toggleHeading(6)
 				}),
 				history(),
 				keymap({ 'Mod-z': undo, 'Mod-y': redo })

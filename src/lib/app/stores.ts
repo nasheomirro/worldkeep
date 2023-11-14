@@ -2,19 +2,22 @@ import { writable } from 'svelte/store';
 import type { DocumentNote } from './types';
 import { createWorldDataStore } from './storage';
 
+/** holds all world records and manages the active connection to a db */
 const worldDataStore = await createWorldDataStore();
 
-/** the `store` will act as a `reactive` wrapper around the db. */
+/** holds the current document for the current connection */
 const documentStore = writable<DocumentNote[]>([]);
 
 async function setWorldTo(id: string) {
 	const wasFoundAndOpened = await worldDataStore.setCurrentWorld(id);
 	if (wasFoundAndOpened) {
-		return await worldDataStore.usedb(async (db) => {
+		const successful = await worldDataStore.usedb(async (db) => {
 			const documents = await db.getAll('documents');
 			documentStore.set(documents);
 			return true;
 		});
+
+		if (successful) return true;
 	}
 
 	return false;
@@ -76,7 +79,7 @@ export const worlds = {
 	setWorldTo
 };
 
-/** the `document` store. It serves as a reactive wrapper for the `IDBDatabase`. */
+/** a store that holds the documents of the current world connection. */
 export const documents = {
 	subscribe: documentStore.subscribe,
 	createDocument,
