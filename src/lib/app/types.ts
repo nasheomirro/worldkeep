@@ -1,4 +1,4 @@
-import type { DBSchema } from 'idb';
+import type { DBSchema, IDBPDatabase } from 'idb';
 
 export type DocumentNote = {
 	readonly title: string;
@@ -16,9 +16,12 @@ export type WorldData = {
 	readonly updatedAt: Date;
 };
 
+
+export type WorldChangeListener = (db: IDBPDatabase<WorldDB>) => void;
+
 export type WorldDataStore = {
 	/** the index of the current world being used. */
-	currentId: string | null; 
+	currentId: string | null;
 	worlds: WorldData[];
 };
 

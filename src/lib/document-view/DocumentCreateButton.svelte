@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { documents } from '$lib/app/stores';
-	import { nanoid } from 'nanoid';
+	import { documentStore } from '$lib/app/documents';
 </script>
 
-<button on:click={() => documents.createDocument(nanoid(12))}> create </button>
+<button on:click={() => documentStore.createDocument()}> create </button>

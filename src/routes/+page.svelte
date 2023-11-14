@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { worlds } from '$lib/app/stores';
-	import { nanoid } from 'nanoid';
+	import { worldDataStore } from '$lib/app/worlds';
 </script>
 
-<button on:click={() => worlds.createWorld(nanoid(8))}> create new world </button>
+<button on:click={() => worldDataStore.createWorldData()}> create new world </button>
 
 <ul>
-	{#each $worlds.worlds as world}
-		<a href={world.id}>
-			{world.name || 'no name'}
-		</a>
+	{#each $worldDataStore.worlds as world}
+		<li>
+			<a href={world.id}>
+				{world.name || 'no name'}
+			</a>
+			<button on:click={() => worldDataStore.deleteWorldData(world.id)}>delete</button>
+		</li>
 	{/each}
 </ul>

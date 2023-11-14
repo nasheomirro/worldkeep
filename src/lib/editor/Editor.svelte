@@ -1,19 +1,19 @@
 <!-- The component responsible for communicating with the global store. -->
 <script lang="ts">
-	import { documents } from '$lib/app/stores';
 	import type { DocumentNote } from '$lib/app/types';
 	import { findDocument } from '$lib/app/utils';
 	import ContentEditor from './ProseEditor.svelte';
 	import EditorMenu from './EditorMenu.svelte';
+	import { documentStore } from '$lib/app/documents';
 
 	/** the id of the object to open */
 	export let documentId: string;
 
-	$: activeDocument = findDocument($documents, documentId);
+	$: activeDocument = findDocument($documentStore, documentId);
 
 	const saveDocumentFromEditor = (event: CustomEvent<DocumentNote>) => {
 		if (activeDocument) {
-			documents.updateDocument({
+			documentStore.updateDocument({
 				...activeDocument,
 				...event.detail
 			});

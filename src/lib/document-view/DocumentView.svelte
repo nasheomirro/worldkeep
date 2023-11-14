@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { documents } from '$lib/app/stores';
+	import { documentStore } from '$lib/app/documents';
 	import { sortDocuments } from '$lib/app/utils';
 	import DocumentCreateButton from './DocumentCreateButton.svelte';
 	import DocumentViewItem from './DocumentViewItem.svelte';
 
-	$: sortedDocuments = sortDocuments($documents, 'recent');
+	$: sortedDocuments = sortDocuments($documentStore, 'recent');
 </script>
 
 <DocumentCreateButton />

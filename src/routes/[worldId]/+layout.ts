@@ -1,13 +1,12 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 
-export const load = (async ({ params }) => {
-	// if the page is opened directly, SSR won't call load functions
-	// but will still import files that were from based imports
-	const { worlds } = await import('$lib/app/stores');
+export const load = (async ({ params, parent }) => {
+	// wait for stores to initialize before setting the world.
+	await parent();
 
-	const worldId = params.worldId;
-	const isWorldSet = await worlds.setWorldTo(worldId);
+	const { worldDataStore } = await import('$lib/app/worlds');
+	const isWorldSet = await worldDataStore.setCurrentWorld(params.worldId);
 
 	if (!isWorldSet) {
 		throw error(404, {
