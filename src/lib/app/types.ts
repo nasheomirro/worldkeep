@@ -7,6 +7,16 @@ export type DocumentNote = {
 	readonly updatedAt: string;
 	readonly content?: object | undefined;
 	readonly id: string;
+	/**
+	 * the id of the tags attached to this document.
+	 * These are not checked and might not exist.
+	 */
+	readonly tags: string[];
+};
+
+export type DocumentTag = {
+	readonly name: string;
+	readonly id: string;
 };
 
 export type WorldData = {
@@ -16,14 +26,16 @@ export type WorldData = {
 	readonly updatedAt: Date;
 };
 
-
-export type WorldChangeListener = (db: IDBPDatabase<WorldDB>) => void;
-
 export type WorldDataStore = {
-	/** the index of the current world being used. */
 	currentId: string | null;
 	worlds: WorldData[];
 };
+
+export type DocumentStore = DocumentNote[];
+
+export type DocumentTagStore = DocumentTag[];
+
+export type DBCallback<T = void> = (db: IDBPDatabase<WorldDB>) => T;
 
 export interface WorldDataDB extends DBSchema {
 	worlds: {
@@ -36,5 +48,9 @@ export interface WorldDB extends DBSchema {
 	documents: {
 		key: string;
 		value: DocumentNote;
+	};
+	tags: {
+		key: string;
+		value: DocumentTag;
 	};
 }

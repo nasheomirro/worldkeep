@@ -5,6 +5,7 @@
 	import ContentEditor from './ProseEditor.svelte';
 	import EditorMenu from './EditorMenu.svelte';
 	import { documentStore } from '$lib/app/documents';
+	import { actions } from '$lib/app/actions';
 
 	/** the id of the object to open */
 	export let documentId: string;
@@ -13,7 +14,7 @@
 
 	const saveDocumentFromEditor = (event: CustomEvent<DocumentNote>) => {
 		if (activeDocument) {
-			documentStore.updateDocument({
+			actions.updateDocument({
 				...activeDocument,
 				...event.detail
 			});

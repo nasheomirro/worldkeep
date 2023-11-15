@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { documentStore } from '$lib/app/documents';
+	import { actions } from '$lib/app/actions';
 </script>
 
-<button on:click={() => documentStore.createDocument()}> create </button>
+<button on:click={() => actions.createDocument()}> create </button>

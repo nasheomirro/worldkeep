@@ -1,14 +1,19 @@
 import { writable } from 'svelte/store';
-import type { DocumentNote } from './types';
+import type { DocumentNote, DocumentStore } from './types';
 import { worldDataStore } from './worlds';
 import { nanoid } from 'nanoid';
 
-const _store = writable<DocumentNote[]>([]);
+const _store = writable<DocumentStore>([]);
 
 /** holds the current documents for the current world */
 export const documentStore = {
 	subscribe: _store.subscribe,
 	intialize,
+	/** the store's update method. **Do not use inside components, use actions instead. ** */
+	_update: _store.update
+};
+
+export const _documentActions = {
 	createDocument,
 	updateDocument,
 	deleteDocument
@@ -32,6 +37,7 @@ async function createDocument() {
 	const emptyDoc: DocumentNote = {
 		title: '',
 		description: '',
+		tags: [],
 		createdAt: dateNowString,
 		updatedAt: dateNowString,
 		content: undefined,

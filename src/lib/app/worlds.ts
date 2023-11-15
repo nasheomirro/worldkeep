@@ -1,6 +1,6 @@
 import { deleteDB, type IDBPDatabase } from 'idb';
 import { get, writable } from 'svelte/store';
-import type { WorldChangeListener, WorldDB, WorldData, WorldDataStore } from './types';
+import type { DBCallback, WorldDB, WorldData, WorldDataStore } from './types';
 import { openWorldDB, openWorldDataDB } from './db';
 import { nanoid } from 'nanoid';
 
@@ -8,11 +8,10 @@ type CurrentDBContainer = { db: IDBPDatabase<WorldDB> | null };
 
 // watch out! non-reactive variables getting mutated!! OH the HUMANITY!
 const _important_currentdb: CurrentDBContainer = { db: null };
-const _world_change_subscribers = new Map<string, WorldChangeListener>();
+const _world_change_subscribers = new Map<string, DBCallback>();
 
-const worldsDB = await openWorldDataDB();
-
-const initialWorldData = await worldsDB.getAll('worlds');
+const worldDataDB = await openWorldDataDB();
+const initialWorldData = await worldDataDB.getAll('worlds');
 
 const _store = writable<WorldDataStore>({
 	currentId: null,
@@ -24,7 +23,10 @@ export const worldDataStore = {
 	db,
 	setCurrentWorld,
 	closeCurrentWorld,
-	subscribeToWorldChange,
+	subscribeToWorldChange
+};
+
+export const _worldDataActions = {
 	createWorldData,
 	deleteWorldData
 };
@@ -33,7 +35,7 @@ export const worldDataStore = {
  * "safely" use the currently opened db connection, the `callback` won't be
  * called if a connection isn't made. returns the `callback`'s return value if invoked.
  */
-function db<T>(callback: (db: IDBPDatabase<WorldDB>) => T): T | false {
+function db<T>(callback: DBCallback<T>): T | false {
 	if (_important_currentdb.db) {
 		return callback(_important_currentdb.db);
 	}
@@ -44,7 +46,7 @@ function db<T>(callback: (db: IDBPDatabase<WorldDB>) => T): T | false {
  * used by stores to react to a world change. Doesn't fire when world changes to `null`.
  * replace any existing subscriber that has the same `key`.
  */
-function subscribeToWorldChange(key: string, onChange: (db: IDBPDatabase<WorldDB>) => void) {
+function subscribeToWorldChange(key: string, onChange: DBCallback) {
 	_world_change_subscribers.set(key, onChange);
 }
 
@@ -88,7 +90,7 @@ async function createWorldData() {
 		updatedAt: new Date()
 	};
 
-	await worldsDB.add('worlds', emptyWorldData);
+	await worldDataDB.add('worlds', emptyWorldData);
 	_store.update((state) => ({ ...state, worlds: [emptyWorldData, ...state.worlds] }));
 }
 
@@ -101,7 +103,7 @@ async function deleteWorldData(id: string) {
 	}
 
 	await deleteDB(id);
-	await worldsDB.delete('worlds', id);
+	await worldDataDB.delete('worlds', id);
 
 	_store.update((state) => ({
 		...state,

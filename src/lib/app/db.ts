@@ -16,6 +16,7 @@ export function openWorldDB(
 	return openDB<WorldDB>(worldId, 1, {
 		upgrade(db) {
 			db.createObjectStore('documents', { keyPath: 'id' });
+			db.createObjectStore('tags', { keyPath: 'id' });
 		},
 		...options
 	});
