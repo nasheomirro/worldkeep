@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { actions } from '$lib/app/actions';
+	import { getActions } from '$lib/app';
+
+	const actions = getActions();
 </script>
 
 <form

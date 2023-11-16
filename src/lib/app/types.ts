@@ -1,6 +1,6 @@
 import type { DBSchema, IDBPDatabase } from 'idb';
 
-export type DocumentNote = {
+export type WorldDocument = {
 	readonly title: string;
 	readonly description: string;
 	readonly createdAt: string;
@@ -14,7 +14,7 @@ export type DocumentNote = {
 	readonly tags: string[];
 };
 
-export type DocumentTag = {
+export type WorldTag = {
 	readonly name: string;
 	readonly id: string;
 };
@@ -26,14 +26,12 @@ export type WorldData = {
 	readonly updatedAt: Date;
 };
 
-export type WorldDataStore = {
+export type WorldListState = {
 	currentId: string | null;
 	worlds: WorldData[];
 };
 
-export type DocumentStore = DocumentNote[];
-
-export type DocumentTagStore = DocumentTag[];
+export type DocumentTagStore = WorldTag[];
 
 export type DBCallback<T = void> = (db: IDBPDatabase<WorldDB>) => T;
 
@@ -47,10 +45,10 @@ export interface WorldDataDB extends DBSchema {
 export interface WorldDB extends DBSchema {
 	documents: {
 		key: string;
-		value: DocumentNote;
+		value: WorldDocument;
 	};
 	tags: {
 		key: string;
-		value: DocumentTag;
+		value: WorldTag;
 	};
 }

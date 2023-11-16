@@ -9,7 +9,7 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { ProseEditor } from './types';
 	import { Node as EditorNode } from 'prosemirror-model';
-	import type { DocumentNote } from '$lib/app/types';
+	import type { WorldDocument } from '$lib/app/types';
 	import { updateDocumentWithRootNode } from './utils';
 	import { toggleHeading } from './commands';
 
@@ -17,14 +17,14 @@
 	 * The initial document note to read content from,
 	 * note that there is no binding going on with `document`, it is just used as initial value.
 	 */
-	export let document: DocumentNote;
+	export let document: WorldDocument;
 
 	let editorContainer: Node;
 	let editor: ProseEditor;
 
 	const dispatchEvent = createEventDispatcher<{
 		/** spits out an updated `DocumentNote` from the editor. */
-		save: DocumentNote;
+		save: WorldDocument;
 	}>();
 
 	// TODO: implement debouncing for implicit saves, for explicit saves dispatch immediately.

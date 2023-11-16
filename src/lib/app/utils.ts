@@ -1,29 +1,21 @@
 import { nanoid } from 'nanoid';
-import type { DocumentNote, DocumentTag } from './types';
+import type { WorldDocument, WorldTag } from './types';
 
-type OverridableFields = Partial<Omit<DocumentNote, 'id'>>;
-export function updateDocumentWith(document: DocumentNote, fields: OverridableFields) {
-	return {
-		...document,
-		...fields
-	};
-}
-
-export function createTag(name: string): DocumentTag {
+export function createTag(name: string): WorldTag {
 	return {
 		name,
 		id: nanoid(21)
 	};
 }
 
-export function findDocument(documents: DocumentNote[], id: string): DocumentNote | undefined {
+export function findDocument(documents: WorldDocument[], id: string): WorldDocument | undefined {
 	return documents.find((note) => note.id === id);
 }
 
 export function sortDocuments(
-	documents: DocumentNote[],
+	documents: WorldDocument[],
 	by: 'recent' | 'alphabetical'
-): DocumentNote[] {
+): WorldDocument[] {
 	switch (by) {
 		case 'recent':
 			return [...documents].sort((a, b) => Date.parse(a.updatedAt) - Date.parse(b.createdAt));

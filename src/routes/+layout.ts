@@ -1,12 +1,12 @@
+import { WorldList } from '$lib/app';
 import type { LayoutLoad } from './$types';
 
 export const trailingSlash = 'always';
 export const ssr = false;
 
 export const load = (async () => {
-	const { documentStore } = await import('$lib/app/documents');
-	const { documentTagStore } = await import('$lib/app/tags');
+	const worldList = new WorldList();
+	await worldList.initialize();
 
-	documentStore.intialize();
-	documentTagStore.initialize();
+	return { worldList };
 }) satisfies LayoutLoad;

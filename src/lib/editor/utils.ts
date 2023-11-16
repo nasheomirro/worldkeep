@@ -1,4 +1,4 @@
-import type { DocumentNote } from '$lib/app/types';
+import type { WorldDocument } from '$lib/app/types';
 import { toggleMark as _toggleMark } from 'prosemirror-commands';
 import type { Mark, MarkType, Node as EditorNode } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
@@ -29,7 +29,7 @@ export function getAllActiveMarkTypes(state: EditorState) {
 	}
 }
 
-export function updateDocumentWithRootNode(oldNote: DocumentNote, doc: EditorNode): DocumentNote {
+export function updateDocumentWithRootNode(oldNote: WorldDocument, doc: EditorNode): WorldDocument {
 	const content = doc.toJSON();
 	const title = doc.firstChild?.textContent || '';
 	const description = doc.maybeChild(1)?.textContent || '';

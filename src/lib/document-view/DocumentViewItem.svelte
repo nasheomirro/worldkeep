@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { DocumentNote } from '$lib/app/types';
+	import type { WorldDocument } from '$lib/app/types';
 
-	export let document: DocumentNote;
+	export let document: WorldDocument;
 
 	let title = document.title || 'Empty Title';
 	let description = document.description || 'No description';
