@@ -1,0 +1,10 @@
+@use "theme" as *;
+
+$border-radius: (
+	sm: 4px,
+	md: 8px,
+	lg: 12px
+);
+
+$primary-normal: token('purple', 500);
+$surface-background: token('white', 50);
