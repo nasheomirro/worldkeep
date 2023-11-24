@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { setActions, setDocuments, setTags } from '$lib/app';
+	import { setActions, setDocuments, setTags } from '$stores';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;

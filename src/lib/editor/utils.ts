@@ -1,4 +1,4 @@
-import type { WorldDocument } from '$lib/app/types';
+import type { WorldDocument } from '$stores/types';
 import { toggleMark as _toggleMark } from 'prosemirror-commands';
 import type { Mark, MarkType, Node as EditorNode } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';

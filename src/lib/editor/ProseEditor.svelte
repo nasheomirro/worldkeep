@@ -6,10 +6,10 @@
 	import { history, redo, undo } from 'prosemirror-history';
 	import { keymap } from 'prosemirror-keymap';
 	import { EditorView } from 'prosemirror-view';
-	import { createEventDispatcher, onMount } from 'svelte';
+	import {  onMount } from 'svelte';
 	import type { ProseEditor } from './types';
 	import { Node as EditorNode } from 'prosemirror-model';
-	import type { WorldDocument } from '$lib/app/types';
+	import type { WorldDocument } from '$stores/types';
 	import { updateDocumentWithRootNode } from './utils';
 	import { toggleHeading } from './commands';
 
@@ -18,19 +18,16 @@
 	 * note that there is no binding going on with `document`, it is just used as initial value.
 	 */
 	export let document: WorldDocument;
+	export let onsave: (document: WorldDocument) => void;
 
 	let editorContainer: Node;
 	let editor: ProseEditor;
 
-	const dispatchEvent = createEventDispatcher<{
-		/** spits out an updated `DocumentNote` from the editor. */
-		save: WorldDocument;
-	}>();
 
 	// TODO: implement debouncing for implicit saves, for explicit saves dispatch immediately.
-	const dispatchSave = (rootNode: EditorNode) => {
+	const updateDocument = (rootNode: EditorNode) => {
 		const updatedDocument = updateDocumentWithRootNode(document, rootNode);
-		dispatchEvent('save', updatedDocument);
+		onsave(updatedDocument);
 	};
 
 	// once mounted, we're able to then mount the ProseMirror
@@ -45,7 +42,7 @@
 					'Mod-b': toggleMark(schema.marks.strong),
 					'Mod-i': toggleMark(schema.marks.em),
 					'Mod-s': (state) => {
-						dispatchSave(state.doc);
+						updateDocument(state.doc);
 						return true;
 					},
 					'Mod-shift-1': toggleHeading(1),

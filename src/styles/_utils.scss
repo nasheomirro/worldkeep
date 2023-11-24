@@ -1,0 +1,44 @@
+@use 'theme' as *;
+
+// apply content given if it breaks the limit of the given key
+@mixin above($key) {
+	@media (min-width: #{map-get($breakpoints, $key)}) {
+		@content;
+	}
+}
+
+// apply content given if its under the limit of the given key
+@mixin below($key) {
+	@media (max-width: calc(#{map-get($breakpoints, $key)} - 1px)) {
+		@content;
+	}
+}
+
+// grab the values from the $colors theme variable
+@function color($color, $key: null) {
+	$first-depth: map-get(
+		$map: $colors,
+		$key: $color
+	);
+
+	@if type-of($value: $first-depth) == 'map' {
+		@if type-of($value: $key) == null {
+			@error 'no key given when value of $color is type of map.';
+		}
+		@return map-get($map: $first-depth, $key: $key);
+	} @else {
+		@return $first-depth;
+	}
+}
+
+@function padding($number) {
+	@if type-of($number) != number {
+		@error "Input is not a number.";
+	}
+
+	@if $number % 1 != 0 {
+		@error "Input is not an integer.";
+	}
+
+	@return #{$number * $padding-growth}rem;
+}

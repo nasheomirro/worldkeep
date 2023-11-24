@@ -1,0 +1,22 @@
+@use '$styles' as s;
+
+.list-item {
+	display: flex;
+	flex-direction: column;
+	padding: s.padding(4) s.padding(4);
+	border: 1px solid #{s.$secondary};
+	border-radius: #{s.$radius-md};
+	box-shadow: s.$shadow-md;
+
+	> h2 {
+		margin-bottom: s.padding(2);
+	}
+
+	> p {
+		margin-bottom: s.padding(4);
+	}
+
+	> .buttons {
+		margin-left: auto;
+	}
+}

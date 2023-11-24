@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 import { get } from 'svelte/store';
-import { World } from '$lib/app';
+import { World } from '$stores';
 
 export const load = (async ({ params, parent }) => {
 	const { worldList } = await parent();
@@ -15,5 +15,5 @@ export const load = (async ({ params, parent }) => {
 
 	const world = new World(matchedWorld.id);
 	await world.initialize();
-	return { world };
+	return { world, worldId: params.worldId };
 }) satisfies LayoutLoad;

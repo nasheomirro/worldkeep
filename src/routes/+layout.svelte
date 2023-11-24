@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { setWorldList } from '$lib/app';
+	import { setWorldList } from '$stores';
 	import type { LayoutData } from './$types';
-	import "$lib/scss/init.scss";
+	import '$styles/init.scss';
 
 	export let data: LayoutData;
 	setWorldList(data.worldList);
 </script>
+
 
 <slot />

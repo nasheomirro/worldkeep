@@ -1,4 +1,4 @@
-import { WorldList } from '$lib/app';
+import { WorldList } from '$stores';
 import type { LayoutLoad } from './$types';
 
 export const trailingSlash = 'always';

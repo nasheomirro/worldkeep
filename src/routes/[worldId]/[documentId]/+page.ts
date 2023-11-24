@@ -1,4 +1,4 @@
-import { findDocument } from '$lib/app/utils';
+import { findDocument } from '$stores/utils';
 import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { error } from '@sveltejs/kit';

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { WorldActions } from './actions';
 import { getContext, setContext } from 'svelte';
 import { openWorldDB, openWorldDataDB } from './db';
-import type { IDBPDatabase } from 'idb';
+import { deleteDB, type IDBPDatabase } from 'idb';
 
 const worldListKey = 'world-list';
 const documentsKey = 'documents';
@@ -50,7 +50,8 @@ export class WorldList {
 			id: nanoid(8),
 			name: '',
 			createdAt: new Date(),
-			updatedAt: new Date()
+			updatedAt: new Date(),
+			description: ''
 		};
 
 		await this.#worldlist_db.add('worlds', emptyWorldData);
@@ -59,6 +60,8 @@ export class WorldList {
 
 	/** removes world data from store and deletes the associated database. */
 	async deleteWorldData(id: string) {
+		await deleteDB(id);
+		await this.#worldlist_db.delete('worlds', id);
 		this.#worlds.update((state) => state.filter((world) => world.id !== id));
 	}
 }
@@ -86,6 +89,7 @@ export class World {
 	async initialize() {
 		this.#world_db = await openWorldDB(this.#world_id, {
 			blocking: () => {
+				this.#world_db.close();
 				this.#is_closed.set(true);
 			}
 		});
@@ -101,6 +105,10 @@ export class World {
 		this.#tags.set(tags);
 
 		this.actions = new WorldActions(this.#documents, this.#tags, this.#world_db);
+	}
+
+	closeWorld() {
+		this.#world_db.close();
 	}
 
 	/** returns a subscribe-only store of the internal `documents` store. */

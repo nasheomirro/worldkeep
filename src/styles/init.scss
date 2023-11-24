@@ -1,0 +1,50 @@
+@use 'reset';
+@use 'tokens' as t;
+@use 'utils' as u;
+
+@include t.themes();
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	font-family: t.$font-normal;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	color: var(--text-color);
+	background-color: var(--body-background);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font-size: inherit;
+	font-family: t.$font-ui;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: t.$font-heading;
+}
+
+html,
+body {
+	height: 100%;
+	scroll-behavior: smooth;
+}
+

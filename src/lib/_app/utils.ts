@@ -18,7 +18,7 @@ export function sortDocuments(
 ): WorldDocument[] {
 	switch (by) {
 		case 'recent':
-			return [...documents].sort((a, b) => Date.parse(a.updatedAt) - Date.parse(b.createdAt));
+			return [...documents].sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt));
 		case 'alphabetical':
 			return [...documents].sort();
 	}

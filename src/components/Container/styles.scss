@@ -1,0 +1,18 @@
+@use '$styles' as s;
+
+.container {
+	display: flex;
+	margin: 0 auto;
+	flex-direction: column;
+	max-width: 1280px;
+	padding: s.padding(5);
+
+	@include s.above('md') {
+		padding-left: s.padding(10);
+		padding-right: s.padding(10);
+	}
+
+	&.strict {
+		max-width: 1080px;
+	}
+}

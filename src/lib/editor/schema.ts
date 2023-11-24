@@ -2,7 +2,7 @@ import { Schema, type MarkSpec, type NodeSpec } from 'prosemirror-model';
 
 const nodes = {
 	doc: {
-		content: 'heading block+'
+		content: 'heading block*'
 	},
 	paragraph: {
 		group: 'block',
@@ -32,7 +32,12 @@ const nodes = {
 
 const marks = {
 	em: {
-		parseDOM: [{ tag: 'em' }, { tag: 'i' }],
+		parseDOM: [
+			{ tag: 'em' },
+			{ tag: 'i' },
+			{ style: 'font-style=italic' },
+			{ style: 'font-style=normal', clearMark: (m) => m.type.name == 'em' }
+		],
 		toDOM: () => ['em', 0]
 	},
 	strong: {

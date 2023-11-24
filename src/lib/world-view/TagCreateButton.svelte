@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getActions } from '$lib/app';
+	import { getActions } from '$stores';
 
 	const actions = getActions();
 </script>

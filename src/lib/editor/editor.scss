@@ -1,0 +1,24 @@
+@use '$styles' as s;
+
+// warning! This file is imported globally!
+
+.ProseMirror {
+  padding: s.padding(10);
+  border: 1px solid s.$secondary;
+  min-height: 25rem;
+  outline: none;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: s.padding(5);	
+  }
+ 
+  h2 {
+    margin-bottom: s.padding(3);
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: s.padding(4);
+  }
+}

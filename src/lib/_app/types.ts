@@ -22,6 +22,7 @@ export type WorldTag = {
 export type WorldData = {
 	readonly name: string;
 	readonly id: string;
+	readonly description: string;
 	readonly createdAt: Date;
 	readonly updatedAt: Date;
 };
