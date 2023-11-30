@@ -5,7 +5,7 @@
 </script>
 
 <li>
-	<button class="_list-item" onclick={() => actions.createDocument()}>create new document</button>
+	<button class="_list-item" onclick={() => actions.createElement()}>create new element</button>
 </li>
 
 <style lang="scss">

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getActions } from '$stores';
+	import { getWorldContext } from "$stores";
 
-	const actions = getActions();
+	const { actions } = getWorldContext();
 </script>
 
 <form

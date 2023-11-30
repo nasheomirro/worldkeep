@@ -2,14 +2,21 @@
 	import { sortDocuments } from '$stores/utils';
 	import DocumentListItem from './DocumentListItem.svelte';
 	import DisplayList from '$components/DisplayList/DisplayList.svelte';
-	import { getDocuments } from '$stores';
+	import type { WorldDocument } from '$stores/types';
+	import DocumentCreateButton from './DocumentCreateButton.svelte';
 
-	const documentStore = getDocuments();
-	$: sortedDocuments = sortDocuments($documentStore, 'recent');
+	type Props = {
+		prepend?: string;
+		documents: WorldDocument[];
+	};
+
+	const { prepend, documents } = $props<Props>();
+	const sortedDocuments = $derived(sortDocuments(documents, 'recent'));
 </script>
 
 <DisplayList>
+	<DocumentCreateButton />
 	{#each sortedDocuments as document (document.id)}
-		<DocumentListItem {document} />
+		<DocumentListItem {document} {prepend} />
 	{/each}
 </DisplayList>

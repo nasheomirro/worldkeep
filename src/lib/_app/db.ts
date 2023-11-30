@@ -1,8 +1,8 @@
 import { openDB, type OpenDBCallbacks } from 'idb';
-import type { WorldDB, WorldDataDB } from './types';
+import type { WorldDB, WorldMetaDB } from './types';
 
-export function openWorldDataDB() {
-	return openDB<WorldDataDB>('worldnames', 1, {
+export function openWorldMetaDB() {
+	return openDB<WorldMetaDB>('worldnames', 1, {
 		upgrade(db) {
 			db.createObjectStore('worlds', { keyPath: 'id' });
 		}
@@ -17,6 +17,7 @@ export function openWorldDB(
 		upgrade(db) {
 			db.createObjectStore('documents', { keyPath: 'id' });
 			db.createObjectStore('tags', { keyPath: 'id' });
+			db.createObjectStore('elements', { keyPath: 'id' });
 		},
 		...options
 	});

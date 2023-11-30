@@ -1,0 +1,19 @@
+$breakpoints: (
+	sm: 360px,
+	md: 720px,
+	lg: 1080px
+);
+
+// apply content given if it breaks the limit of the given key
+@mixin above($key) {
+	@media (min-width: #{map-get($breakpoints, $key)}) {
+		@content;
+	}
+}
+
+// apply content given if its under the limit of the given key
+@mixin below($key) {
+	@media (max-width: calc(#{map-get($breakpoints, $key)} - 1px)) {
+		@content;
+	}
+}

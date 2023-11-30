@@ -14,12 +14,31 @@ export type WorldDocument = {
 	readonly tags: string[];
 };
 
+export type HistoryItem = {
+	readonly name: string;
+	readonly description: string;
+	/**
+	 * the documentId this history item is connected to.
+	 * This is not checked and might not exist
+	 */
+	readonly documentId: string;
+};
+
+export type WorldElement = WorldDocument & {
+	/**
+	 * might look redundant, but its more so to clearly tell
+	 * whether an object is an element or a document.
+	 */
+	isElement?: true;
+	readonly history: string[];
+};
+
 export type WorldTag = {
 	readonly name: string;
 	readonly id: string;
 };
 
-export type WorldData = {
+export type WorldMeta = {
 	readonly name: string;
 	readonly id: string;
 	readonly description: string;
@@ -29,17 +48,17 @@ export type WorldData = {
 
 export type WorldListState = {
 	currentId: string | null;
-	worlds: WorldData[];
+	worlds: WorldMeta[];
 };
 
 export type DocumentTagStore = WorldTag[];
 
 export type DBCallback<T = void> = (db: IDBPDatabase<WorldDB>) => T;
 
-export interface WorldDataDB extends DBSchema {
+export interface WorldMetaDB extends DBSchema {
 	worlds: {
 		key: string;
-		value: WorldData;
+		value: WorldMeta;
 	};
 }
 
@@ -51,5 +70,9 @@ export interface WorldDB extends DBSchema {
 	tags: {
 		key: string;
 		value: WorldTag;
+	};
+	elements: {
+		key: string;
+		value: WorldElement;
 	};
 }

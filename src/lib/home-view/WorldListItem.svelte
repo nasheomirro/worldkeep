@@ -2,10 +2,10 @@
 	import DisplayListItem from '$components/DisplayListItem/DisplayListItem.svelte';
 	import Button from '$components/Button/Button.svelte';
 	import { getWorldList } from '$stores';
-	import type { WorldData } from '$stores/types';
+	import type { WorldMeta } from '$stores/types';
 
 	type Props = {
-		world: WorldData;
+		world: WorldMeta;
 	};
 
 	let { world } = $props<Props>();
@@ -22,7 +22,7 @@
 		{world.description || 'no description'}
 	</p>
 	{#snippet buttons()}
-		<Button size="sm" color="secondary" onclick={() => worldList.deleteWorldData(world.id)}
+		<Button size="sm" color="secondary" onclick={() => worldList.deleteWorldMeta(world.id)}
 			>delete</Button
 		>
 	{/snippet}

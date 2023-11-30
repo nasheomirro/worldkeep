@@ -10,7 +10,9 @@
 
 <Container>
 	<Nav>
-		<Button onclick={() => worldList.createWorldData()}>create new world</Button>
+		{#snippet end()}
+			<Button onclick={() => worldList.createWorldMeta()}>create new world</Button>
+		{/snippet}
 	</Nav>
 	<WorldList />
 </Container>

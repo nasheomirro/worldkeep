@@ -1,0 +1,28 @@
+@use 'definitions' as *;
+
+// tokens:
+// names should be separated from their content. Tokens are what
+// applies contexts to the variables in the vacuum.
+
+$theme-color-primary: color('purple', 500);
+$theme-color-secondary: color('gray', 200);
+$theme-color-error: color('red', 700);
+
+$theme-color-surface: color('gray', 200);
+$theme-color-surface-light: color('gray', 100);
+$theme-color-surface-border: color('gray', 100);
+
+$theme-color-text: color('gray', 950);
+$theme-color-body: color('gray', 50);
+
+$theme-border-radius: $border-radius-md;
+$theme-border-radius-light: $border-radius-sm;
+$theme-border-radius-heavy: $border-radius-lg;
+
+$theme-shadow: $shadow-md;
+$theme-shadow-light: $shadow-sm;
+$theme-shadow-heavy: $shadow-lg;
+
+$theme-heading-text: $font-playfair-display;
+$theme-normal-text: $font-source-serif;
+$theme-ui-text: $font-system-ui;

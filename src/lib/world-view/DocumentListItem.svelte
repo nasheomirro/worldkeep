@@ -1,19 +1,19 @@
 <script lang="ts">
 	import Button from '$components/Button/Button.svelte';
 	import DisplayListItem from '$components/DisplayListItem/DisplayListItem.svelte';
-	import { getActions } from '$stores';
+	import { getWorldContext } from '$stores';
 	import type { WorldDocument } from '$stores/types';
 
-	export let document: WorldDocument;
-
-	const actions = getActions();
+	type Props = { document: WorldDocument; prepend?: string };
+	const { document, prepend = '' } = $props<Props>();
+	const { actions } = getWorldContext();
 
 	let title = document.title || 'Empty Title';
 	let description = document.description || 'No description';
 </script>
 
 <DisplayListItem>
-	<a href={document.id}>
+	<a href={prepend + document.id}>
 		<h2>{title}</h2>
 	</a>
 	<p>{description}</p>

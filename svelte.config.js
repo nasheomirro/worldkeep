@@ -15,6 +15,7 @@ const config = {
 		alias: {
 			$styles: 'src/styles',
 			$components: 'src/components',
+			$elements: 'src/elements',
 			$stores: 'src/lib/_app'
 		}
 	}

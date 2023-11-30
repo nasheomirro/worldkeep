@@ -1,31 +1,38 @@
 import { writable, type Readable } from 'svelte/store';
-import type { WorldTag, WorldDocument, WorldDataDB, WorldData, WorldDB } from './types';
+import type {
+	WorldTag,
+	WorldDocument,
+	WorldMetaDB,
+	WorldMeta,
+	WorldDB,
+	WorldElement
+} from './types';
+
 import { nanoid } from 'nanoid';
 import { WorldActions } from './actions';
 import { getContext, setContext } from 'svelte';
-import { openWorldDB, openWorldDataDB } from './db';
+import { openWorldDB, openWorldMetaDB } from './db';
 import { deleteDB, type IDBPDatabase } from 'idb';
 
 const worldListKey = 'world-list';
-const documentsKey = 'documents';
-const tagsKey = 'tags';
-const actionsKey = 'world-actions';
+const worldContextKey = 'world-context';
+
+type WorldContext = {
+	actions: WorldActions;
+	documents: Readable<WorldDocument[]>;
+	elements: Readable<WorldElement[]>;
+	tags: Readable<WorldTag[]>;
+};
+
+export const getWorldContext = () => getContext<WorldContext>(worldContextKey);
+export const setWorldContext = (context: WorldContext) => setContext(worldContextKey, context);
 
 export const getWorldList = () => getContext<WorldList>(worldListKey);
 export const setWorldList = (list: WorldList) => setContext(worldListKey, list);
 
-export const getDocuments = () => getContext<Readable<WorldDocument[]>>(documentsKey);
-export const setDocuments = (store: Readable<WorldDocument[]>) => setContext(documentsKey, store);
-
-export const getTags = () => getContext<Readable<WorldTag[]>>(tagsKey);
-export const setTags = (store: Readable<WorldTag[]>) => setContext(tagsKey, store);
-
-export const getActions = () => getContext<WorldActions>(actionsKey);
-export const setActions = (actions: WorldActions) => setContext(actionsKey, actions);
-
 export class WorldList {
-	#worlds = writable<WorldData[]>([]);
-	#worldlist_db: IDBPDatabase<WorldDataDB>;
+	#worlds = writable<WorldMeta[]>([]);
+	#worldlist_db: IDBPDatabase<WorldMetaDB>;
 
 	constructor() {
 		// i am not gonna try handling `worldlist_db` being either undefined or not.
@@ -39,14 +46,14 @@ export class WorldList {
 	 * **This must be called and awaited immediately after creating the instance**!
 	 */
 	async initialize() {
-		this.#worldlist_db = await openWorldDataDB();
+		this.#worldlist_db = await openWorldMetaDB();
 		const worlds = await this.#worldlist_db.getAll('worlds');
 		this.#worlds.set(worlds);
 	}
 
 	/** creates an empty world data object, note that this doesn't open a DB connection. */
-	async createWorldData() {
-		const emptyWorldData: WorldData = {
+	async createWorldMeta() {
+		const emptyWorldMeta: WorldMeta = {
 			id: nanoid(8),
 			name: '',
 			createdAt: new Date(),
@@ -54,12 +61,12 @@ export class WorldList {
 			description: ''
 		};
 
-		await this.#worldlist_db.add('worlds', emptyWorldData);
-		this.#worlds.update((state) => [...state, emptyWorldData]);
+		await this.#worldlist_db.add('worlds', emptyWorldMeta);
+		this.#worlds.update((state) => [...state, emptyWorldMeta]);
 	}
 
 	/** removes world data from store and deletes the associated database. */
-	async deleteWorldData(id: string) {
+	async deleteWorldMeta(id: string) {
 		await deleteDB(id);
 		await this.#worldlist_db.delete('worlds', id);
 		this.#worlds.update((state) => state.filter((world) => world.id !== id));
@@ -73,6 +80,7 @@ export class World {
 	#is_closed = writable<boolean>(false);
 	#documents = writable<WorldDocument[]>([]);
 	#tags = writable<WorldTag[]>([]);
+	#elements = writable<WorldElement[]>([]);
 
 	actions: WorldActions;
 
@@ -94,17 +102,19 @@ export class World {
 			}
 		});
 
-		const tr = this.#world_db.transaction(['documents', 'tags'], 'readonly');
-		const [documents, tags] = await Promise.all([
+		const tr = this.#world_db.transaction(['documents', 'tags', 'elements'], 'readonly');
+		const [documents, tags, elements] = await Promise.all([
 			tr.objectStore('documents').getAll(),
 			tr.objectStore('tags').getAll(),
+			tr.objectStore('elements').getAll(),
 			tr.done
 		]);
 
 		this.#documents.set(documents);
 		this.#tags.set(tags);
+		this.#elements.set(elements);
 
-		this.actions = new WorldActions(this.#documents, this.#tags, this.#world_db);
+		this.actions = new WorldActions(this.#documents, this.#tags, this.#elements, this.#world_db);
 	}
 
 	closeWorld() {
@@ -122,6 +132,13 @@ export class World {
 	createTagStore(): Readable<WorldTag[]> {
 		return {
 			subscribe: this.#tags.subscribe
+		};
+	}
+
+	/** returns a subscribe-only store of the internal `elements` store. */
+	createElementStore(): Readable<WorldElement[]> {
+		return {
+			subscribe: this.#elements.subscribe
 		};
 	}
 

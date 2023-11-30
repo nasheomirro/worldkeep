@@ -32,8 +32,15 @@ export function getAllActiveMarkTypes(state: EditorState) {
 export function updateDocumentWithRootNode(oldNote: WorldDocument, doc: EditorNode): WorldDocument {
 	const content = doc.toJSON();
 	const title = doc.firstChild?.textContent || '';
-	const description = doc.maybeChild(1)?.textContent || '';
 	const updatedAt = new Date().toUTCString();
+
+	let description = doc.maybeChild(1)?.textContent || '';
+
+	if (description.length > 300) {
+		let slice = description.slice(0, 297);
+		slice += '...';
+		description = slice;
+	}
 
 	return {
 		...oldNote,

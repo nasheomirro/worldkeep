@@ -1,0 +1,6 @@
+@use '$styles' as t;
+
+$card-background-color: t.$theme-color-surface-light;
+$card-border-color: t.$theme-color-surface-border;
+$card-border-radius: t.$theme-border-radius;
+$card-shadow: t.$theme-shadow;

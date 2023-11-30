@@ -1,0 +1,66 @@
+@use '$styles' as t;
+
+$button-shadow: t.$theme-shadow;
+$button-border-radius: t.$theme-border-radius;
+$button-border-radius-light: t.$theme-border-radius-light;
+$button-border-radius-heavy: t.$theme-border-radius-heavy;
+
+$button-background-primary: t.$theme-color-primary;
+$button-background-secondary: t.$theme-color-secondary;
+$button-background-error: t.$theme-color-error;
+
+
+.button {
+	border: none;
+	cursor: pointer;
+	box-shadow: #{$button-shadow};
+	border-radius: #{$button-border-radius};
+	transition:
+		opacity 200ms ease-in-out,
+		filter 200ms ease-in-out;
+
+	&--size {
+		&-small {
+			padding: 0.25rem 0.5rem;
+			font-size: 0.9rem;
+		}
+
+		&-medium {
+			padding: 0.5rem 1rem;
+			font-size: 1rem;
+		}
+	}
+
+	&--radius {
+		&-light {
+			border-radius: #{$button-border-radius-light};
+		}
+		&-normal {
+			border-radius: #{$button-border-radius};
+		}
+
+		&-heavy {
+			border-radius: #{$button-border-radius-heavy};
+		}
+	}
+
+	&--bgColor {
+		&-primary {
+			background-color: #{$button-background-primary};
+		}
+
+		&-secondary {
+			background-color: #{$button-background-secondary};
+		}
+
+		&-error {
+			background-color: #{$button-background-error};
+		}
+	}
+
+	&:disabled {
+		opacity: 0.9;
+		cursor: not-allowed;
+		filter: grayscale(40%);
+	}
+}

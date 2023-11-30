@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { getActions, getTags } from '$stores';
+	import { getWorldContext } from '$stores';
 
-	const tagStore = getTags();
-	const actions = getActions();
+	const { actions, tags } = getWorldContext();
 </script>
 
 <ul>
-	{#each $tagStore as tag}
+	{#each $tags as tag}
 		<li>
 			<div>{tag.name} - {tag.id}</div>
 			<button on:click={() => actions.deleteTag(tag.id)}>delete</button>
