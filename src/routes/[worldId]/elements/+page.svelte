@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Container from '$components/Container/Container.svelte';
+	import Container from '$components/Container.svelte';
 	import ElementList from '$lib/world-view/ElementList.svelte';
 	import { getWorldContext } from '$stores';
 

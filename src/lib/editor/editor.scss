@@ -1,6 +1,5 @@
-@use '$styles' as s;
-
 // warning! This file is imported globally!
+@use '$styles' as t;
 
 .ProseMirror {
 	min-height: 25rem;
@@ -8,23 +7,20 @@
 
 	h1 {
 		font-size: 2.4rem;
-		margin-bottom: s.padding(5);
+		margin-bottom: 1.25rem;
 	}
-
 	h2 {
-		margin-bottom: s.padding(3);
+		margin-bottom: 0.75rem;
 	}
-
 	p {
 		font-size: 1.1rem;
-		margin-bottom: s.padding(4);
+		margin-bottom: 1rem;
 	}
 
-	@include s.above('md') {
-		padding: s.padding(5);
+	@include t.above('md') {
+		padding: 1.25rem;
 	}
-
-  @include s.above('lg') {
-    padding: s.padding(10);
-  }
+	@include t.above('lg') {
+		padding: 2.5rem;
+	}
 }

@@ -1,9 +1,10 @@
 <script lang="ts">
-	import Container from '$components/Container/Container.svelte';
-	import Nav from '$components/Nav/Nav.svelte';
 	import { getWorldList, setWorldContext } from '$stores';
 	import type { WorldMeta } from '$stores/types';
 	import type { LayoutData } from './$types';
+
+	import Container from '$components/Container.svelte';
+	import Navbar from '$components/Navbar.svelte';
 
 	let { data } = $props<{ data: LayoutData }>();
 
@@ -23,14 +24,14 @@
 </script>
 
 <Container>
-	<Nav>
+	<Navbar>
 		{#snippet start()}
 			<a href={getPath('')}>recent</a>
 			<a href={getPath('documents')}>documents</a>
 			<a href={getPath('elements')}>elements</a>
 			<a href={getPath('tags')}>tags</a>
 		{/snippet}
-	</Nav>
+	</Navbar>
 	<div class="world-info">
 		<h1>{world.name || 'No Name'}</h1>
 		<p>{world.description || 'no description'}</p>
@@ -40,16 +41,16 @@
 <slot />
 
 <style lang="scss">
-	@use '$styles' as s;
+	@use '$styles' as t;
 
 	.world-info {
-		padding: s.padding(10) 0;
-		margin-bottom: s.padding(10);
-		border-bottom: 1px solid s.$secondary;
+		padding: 2.5rem 0;
+		margin-bottom: 2.5rem;
+		border-bottom: 1px solid #{t.$theme-color-surface-border};
 
 		> h1 {
 			font-size: 2.5rem;
-			margin-bottom: s.padding(2);
+			margin-bottom: 0.5rem;
 		}
 	}
 </style>

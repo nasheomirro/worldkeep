@@ -1,18 +1,22 @@
 <script lang="ts">
-	import DisplayList from '$components/DisplayList/DisplayList.svelte';
 	import ElementListItem from './ElementListItem.svelte';
-	import ElementCreateButton from './ElementCreateButton.svelte';
 	import type { WorldElement } from '$stores/types';
+	import DisplayList from '$components/CardList.svelte';
+	import CardListButton from '$components/CardListButton.svelte';
+	import { getWorldContext } from '$stores';
 
 	type Props = {
 		elements: WorldElement[];
 	};
 
-	let { elements } = $props<Props>();
+	const { elements } = $props<Props>();
+	const { actions } = getWorldContext();
 </script>
 
 <DisplayList>
-	<ElementCreateButton />
+	<li>
+		<CardListButton onclick={() => actions.createElement()}>create new element</CardListButton>
+	</li>
 	{#each elements as element}
 		<ElementListItem {element} />
 	{/each}

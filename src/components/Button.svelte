@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { HTMLButtonAttributes } from 'svelte/elements';
-	import { getClassName, type GetProps, type RequiredChildren } from '../utils';
-	import type { ButtonMods } from './button.types';
+	import { getClassName, type GetProps, type RequiredChildren } from '../elements/utils';
+	import type { ButtonMods } from '$elements/types/button.types';
 
 	type OwnProps = RequiredChildren & ButtonMods;
 	type Props = GetProps<HTMLButtonAttributes, OwnProps>;
@@ -28,5 +28,5 @@
 </button>
 
 <style lang="scss">
-	@use './button' as *;
+	@use '$elements/button' as *;
 </style>

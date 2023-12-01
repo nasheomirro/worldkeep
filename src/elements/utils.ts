@@ -37,8 +37,10 @@ export function getClassName(
 			}
 			return arr;
 		},
-		[appendTo]
+		[base, appendTo]
 	);
+
+	console.log(convertedArr.join(' '));
 
 	return convertedArr.join(' ');
 }

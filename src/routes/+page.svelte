@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { getWorldList } from '$stores';
-	import Container from '$components/Container/Container.svelte';
-	import Button from '$components/Button/Button.svelte';
-	import Nav from '$components/Nav/Nav.svelte';
+	import Navbar from '$components/Navbar.svelte';
+	import Container from '$components/Container.svelte';
 	import WorldList from '$lib/home-view/WorldList.svelte';
+	import Button from '$components/Button.svelte';
 
 	const worldList = getWorldList();
 </script>
 
 <Container>
-	<Nav>
+	<Navbar>
 		{#snippet end()}
 			<Button onclick={() => worldList.createWorldMeta()}>create new world</Button>
 		{/snippet}
-	</Nav>
+	</Navbar>
 	<WorldList />
 </Container>

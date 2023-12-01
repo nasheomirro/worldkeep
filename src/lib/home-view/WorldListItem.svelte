@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DisplayListItem from '$components/DisplayListItem/DisplayListItem.svelte';
-	import Button from '$components/Button/Button.svelte';
+	import DisplayListItem from '$components/CardListItem.svelte';
+	import Button from '$components/Button.svelte';
 	import { getWorldList } from '$stores';
 	import type { WorldMeta } from '$stores/types';
 
@@ -13,16 +13,16 @@
 </script>
 
 <DisplayListItem>
-	<h2>
-		<a href={world.id}>
-			{world.name || 'no name'}
-		</a>
-	</h2>
-	<p>
-		{world.description || 'no description'}
-	</p>
+	{#snippet title()}
+		<a href={world.id}>{world.name || 'no name'}</a>
+	{/snippet}
+
+	{#snippet description()}
+		<svelte:fragment>{world.description || 'no description found.'}</svelte:fragment>
+	{/snippet}
+
 	{#snippet buttons()}
-		<Button size="sm" color="secondary" onclick={() => worldList.deleteWorldMeta(world.id)}
+		<Button size="small" bgColor="secondary" onclick={() => worldList.deleteWorldMeta(world.id)}
 			>delete</Button
 		>
 	{/snippet}
