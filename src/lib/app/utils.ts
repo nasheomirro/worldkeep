@@ -1,15 +1,15 @@
 import { nanoid } from 'nanoid';
-import type { WorldDocument, WorldTag } from './types';
+import type { EditableEntry, WorldDocument, WorldTag } from './types';
 
-export function createTag(name: string): WorldTag {
+export function createTagObject(name: string): WorldTag {
 	return {
 		name,
 		id: nanoid(21)
 	};
 }
 
-export function findDocument(documents: WorldDocument[], id: string): WorldDocument | undefined {
-	return documents.find((note) => note.id === id);
+export function findEntry<T extends EditableEntry>(entries: T[], id: string): T | undefined {
+	return entries.find((entry) => entry.id === id);
 }
 
 export function sortDocuments(

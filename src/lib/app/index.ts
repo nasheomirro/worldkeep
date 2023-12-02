@@ -5,14 +5,15 @@ import type {
 	WorldMetaDB,
 	WorldMeta,
 	WorldDB,
-	WorldElement
+	WorldElement,
+	HistoryItem
 } from './types';
 
 import { nanoid } from 'nanoid';
-import { WorldActions } from './actions';
 import { getContext, setContext } from 'svelte';
 import { openWorldDB, openWorldMetaDB } from './db';
 import { deleteDB, type IDBPDatabase } from 'idb';
+import { createActions, type WorldActions } from './actions';
 
 const worldListKey = 'world-list';
 const worldContextKey = 'world-context';
@@ -76,13 +77,13 @@ export class WorldList {
 export class World {
 	#world_id: string;
 	#world_db: IDBPDatabase<WorldDB>;
+	actions: WorldActions;
 
 	#is_closed = writable<boolean>(false);
 	#documents = writable<WorldDocument[]>([]);
 	#tags = writable<WorldTag[]>([]);
 	#elements = writable<WorldElement[]>([]);
-
-	actions: WorldActions;
+	#history = writable<HistoryItem[]>([]);
 
 	constructor(id: string) {
 		this.#world_id = id;
@@ -102,23 +103,37 @@ export class World {
 			}
 		});
 
-		const tr = this.#world_db.transaction(['documents', 'tags', 'elements'], 'readonly');
-		const [documents, tags, elements] = await Promise.all([
+		const tr = this.#world_db.transaction(['documents', 'tags', 'elements', 'history'], 'readonly');
+		const [documents, tags, elements, history] = await Promise.all([
 			tr.objectStore('documents').getAll(),
 			tr.objectStore('tags').getAll(),
 			tr.objectStore('elements').getAll(),
+			tr.objectStore('history').getAll(),
 			tr.done
 		]);
 
 		this.#documents.set(documents);
 		this.#tags.set(tags);
 		this.#elements.set(elements);
+		this.#history.set(history);
 
-		this.actions = new WorldActions(this.#documents, this.#tags, this.#elements, this.#world_db);
+		this.actions = createActions({
+			db: this.#world_db,
+			documents: this.#documents,
+			elements: this.#elements,
+			tags: this.#tags,
+			history: this.#history
+		});
 	}
 
 	closeWorld() {
 		this.#world_db.close();
+	}
+
+	createHistoryStore(): Readable<HistoryItem[]> {
+		return {
+			subscribe: this.#history.subscribe
+		};
 	}
 
 	/** returns a subscribe-only store of the internal `documents` store. */

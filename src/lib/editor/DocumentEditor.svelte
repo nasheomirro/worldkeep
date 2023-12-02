@@ -1,18 +1,17 @@
 <!-- The component responsible for communicating with the global store. -->
 <script lang="ts">
-	import "./editor.scss";
+	import './editor.scss';
 	import type { WorldDocument } from '$stores/types';
-	import { findDocument } from '$stores/utils';
-	import ProseEditor from './ProseEditor.svelte';
+	import { findEntry } from '$stores/utils';
+	import EntryEditor from './EntryEditor.svelte';
 	import EditorMenu from './EditorMenu.svelte';
-	import { getWorldContext } from "$stores";
+	import { getWorldContext } from '$stores';
 
 	/** the id of the document to open */
 	export let documentId: string;
 
 	const { actions, documents } = getWorldContext();
-
-	$: activeDocument = findDocument($documents, documentId);
+	$: activeDocument = findEntry($documents, documentId);
 
 	const saveDocumentFromEditor = (document: WorldDocument) => {
 		if (activeDocument) {
@@ -22,7 +21,11 @@
 </script>
 
 {#if activeDocument}
-	<ProseEditor document={activeDocument} onsave={saveDocumentFromEditor} let:editor>
-		<EditorMenu {editor} />
-	</ProseEditor>
+	<EntryEditor entry={activeDocument} onsave={saveDocumentFromEditor}>
+		{#snippet children(editor)}
+			<EditorMenu {editor} />
+		{/snippet}
+	</EntryEditor>
+{:else}
+	<div>not found</div>
 {/if}

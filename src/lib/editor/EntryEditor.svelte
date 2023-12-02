@@ -6,28 +6,32 @@
 	import { history, redo, undo } from 'prosemirror-history';
 	import { keymap } from 'prosemirror-keymap';
 	import { EditorView } from 'prosemirror-view';
-	import {  onMount } from 'svelte';
-	import type { ProseEditor } from './types';
+	import { onMount, type Snippet } from 'svelte';
+	import type { ProseEditor } from './editor.types';
 	import { Node as EditorNode } from 'prosemirror-model';
-	import type { WorldDocument } from '$stores/types';
-	import { updateDocumentWithRootNode } from './utils';
+	import type { EditableEntry } from '$stores/types';
+	import { updateEntryWithRootNode } from './editor.utils';
 	import { toggleHeading } from './commands';
 
-	/**
-	 * The initial document note to read content from,
-	 * note that there is no binding going on with `document`, it is just used as initial value.
-	 */
-	export let document: WorldDocument;
-	export let onsave: (document: WorldDocument) => void;
+	type Props = {
+		/**
+		 * The initial document note to read content from,
+		 * note that there is no binding going on with `entry`, it is just used as initial value.
+		 */
+		entry: EditableEntry;
+		onsave: (entry: EditableEntry) => void;
+		children: Snippet<ProseEditor>;
+	};
 
+	const { entry, onsave, children } = $props<Props>();
+
+	let editor = $state<ProseEditor>();
 	let editorContainer: Node;
-	let editor: ProseEditor;
-
 
 	// TODO: implement debouncing for implicit saves, for explicit saves dispatch immediately.
-	const updateDocument = (rootNode: EditorNode) => {
-		const updatedDocument = updateDocumentWithRootNode(document, rootNode);
-		onsave(updatedDocument);
+	const updateEntry = (rootNode: EditorNode) => {
+		const updatedEntry = updateEntryWithRootNode(entry, rootNode);
+		onsave(updatedEntry);
 	};
 
 	// once mounted, we're able to then mount the ProseMirror
@@ -35,14 +39,14 @@
 	onMount(() => {
 		let state = EditorState.create({
 			schema,
-			doc: document?.content ? EditorNode.fromJSON(schema, document.content) : undefined,
+			doc: entry?.content ? EditorNode.fromJSON(schema, entry.content) : undefined,
 			plugins: [
 				keymap(baseKeymap),
 				keymap({
 					'Mod-b': toggleMark(schema.marks.strong),
 					'Mod-i': toggleMark(schema.marks.em),
 					'Mod-s': (state) => {
-						updateDocument(state.doc);
+						updateEntry(state.doc);
 						return true;
 					},
 					'Mod-shift-1': toggleHeading(1),
@@ -61,13 +65,19 @@
 			state,
 			dispatchTransaction(tr: Transaction) {
 				let newState = view.state.apply(tr);
-				editor = { ...editor, state: newState };
+				// redundant but typescript will complain
+				if (editor) {
+					editor = { ...editor, state: newState };
+				}
 				view.updateState(newState);
 			}
 		});
 
 		editor = {
 			state,
+			saveEntry() {
+				updateEntry(view.state.doc);
+			},
 			command(comm, shouldDispatch = true) {
 				const dispatch = shouldDispatch ? view.dispatch : undefined;
 				return comm(view.state, dispatch, view);
@@ -79,9 +89,9 @@
 </script>
 
 <div>
-	<!-- only show slot when editor is ready -->
+	<!-- only render children when editor is ready -->
 	{#if editor}
-		<slot {editor} />
+		{@render children(editor)}
 	{/if}
 
 	<!-- the element to contain the created ProseMirror Editor -->

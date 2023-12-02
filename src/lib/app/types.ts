@@ -1,6 +1,6 @@
 import type { DBSchema, IDBPDatabase } from 'idb';
 
-export type WorldDocument = {
+export interface EditableEntry {
 	readonly title: string;
 	readonly description: string;
 	readonly createdAt: string;
@@ -9,28 +9,34 @@ export type WorldDocument = {
 	readonly id: string;
 	/**
 	 * the id of the tags attached to this document.
-	 * These are not checked and might not exist.
+	 * These are not checked and might or might not exist.
 	 */
 	readonly tags: string[];
-};
+}
+
+export interface WorldDocument extends EditableEntry {}
+export interface WorldElement extends EditableEntry {
+	/**
+	 * looks redundant, but its more so to clearly tell
+	 * whether an object is an element or a document.
+	 */
+	isElement?: true;
+}
 
 export type HistoryItem = {
 	readonly name: string;
 	readonly description: string;
+	readonly id: string;
 	/**
-	 * the documentId this history item is connected to.
-	 * This is not checked and might not exist
+	 * the entry id this history item is connected to.
+	 * This is not checked and might or might not exist
 	 */
-	readonly documentId: string;
-};
-
-export type WorldElement = WorldDocument & {
+	readonly entryId: string;
 	/**
-	 * might look redundant, but its more so to clearly tell
-	 * whether an object is an element or a document.
+	 * the element id this history item is describing.
+	 * This is not checked and might or might not exist
 	 */
-	isElement?: true;
-	readonly history: string[];
+	readonly elementId: string;
 };
 
 export type WorldTag = {
@@ -45,13 +51,6 @@ export type WorldMeta = {
 	readonly createdAt: Date;
 	readonly updatedAt: Date;
 };
-
-export type WorldListState = {
-	currentId: string | null;
-	worlds: WorldMeta[];
-};
-
-export type DocumentTagStore = WorldTag[];
 
 export type DBCallback<T = void> = (db: IDBPDatabase<WorldDB>) => T;
 
@@ -74,5 +73,9 @@ export interface WorldDB extends DBSchema {
 	elements: {
 		key: string;
 		value: WorldElement;
+	};
+	history: {
+		key: string;
+		value: HistoryItem;
 	};
 }

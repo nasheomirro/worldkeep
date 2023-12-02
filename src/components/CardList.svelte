@@ -19,10 +19,11 @@
 		grid-auto-rows: 1fr;
 		padding: 0;
 		list-style-type: none;
-		gap: 2.5rem;
+		gap: 1rem;
 
 		@include t.above('md') {
 			grid-template-columns: 1fr 1fr;
+			gap: 1.5rem;
 		}
 
 		@include t.above('lg') {

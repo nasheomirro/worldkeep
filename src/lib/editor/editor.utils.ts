@@ -1,4 +1,4 @@
-import type { WorldDocument } from '$stores/types';
+import type { EditableEntry, WorldDocument } from '$lib/app/types';
 import { toggleMark as _toggleMark } from 'prosemirror-commands';
 import type { Mark, MarkType, Node as EditorNode } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
@@ -29,7 +29,8 @@ export function getAllActiveMarkTypes(state: EditorState) {
 	}
 }
 
-export function updateDocumentWithRootNode(oldNote: WorldDocument, doc: EditorNode): WorldDocument {
+export function updateEntryWithRootNode(oldEntry: WorldDocument, doc: EditorNode): EditableEntry {
+	// this works in the presumption that the schema will always have a heading
 	const content = doc.toJSON();
 	const title = doc.firstChild?.textContent || '';
 	const updatedAt = new Date().toUTCString();
@@ -43,7 +44,7 @@ export function updateDocumentWithRootNode(oldNote: WorldDocument, doc: EditorNo
 	}
 
 	return {
-		...oldNote,
+		...oldEntry,
 		content,
 		title,
 		description,

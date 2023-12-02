@@ -1,10 +1,6 @@
 <script lang="ts">
-	import { getWorldList, setWorldContext } from '$stores';
-	import type { WorldMeta } from '$stores/types';
+	import { setWorldContext } from '$stores';
 	import type { LayoutData } from './$types';
-
-	import Container from '$components/Container.svelte';
-	import Navbar from '$components/Navbar.svelte';
 
 	let { data } = $props<{ data: LayoutData }>();
 
@@ -14,43 +10,6 @@
 		elements: data.world.createElementStore(),
 		tags: data.world.createTagStore()
 	});
-
-	const worlds = getWorldList();
-	const world = $derived($worlds.find((worlds) => worlds.id === data.worldId) as WorldMeta);
-
-	function getPath(append: string) {
-		return '/' + world.id + '/' + append;
-	}
 </script>
 
-<Container>
-	<Navbar>
-		{#snippet start()}
-			<a href={getPath('')}>recent</a>
-			<a href={getPath('documents')}>documents</a>
-			<a href={getPath('elements')}>elements</a>
-			<a href={getPath('tags')}>tags</a>
-		{/snippet}
-	</Navbar>
-	<div class="world-info">
-		<h1>{world.name || 'No Name'}</h1>
-		<p>{world.description || 'no description'}</p>
-	</div>
-</Container>
-
 <slot />
-
-<style lang="scss">
-	@use '$styles' as t;
-
-	.world-info {
-		padding: 2.5rem 0;
-		margin-bottom: 2.5rem;
-		border-bottom: 1px solid #{t.$theme-color-surface-border};
-
-		> h1 {
-			font-size: 2.5rem;
-			margin-bottom: 0.5rem;
-		}
-	}
-</style>

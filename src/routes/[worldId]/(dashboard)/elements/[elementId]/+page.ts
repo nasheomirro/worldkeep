@@ -1,19 +1,19 @@
-import { findDocument } from '$stores/utils';
+import { findEntry } from '$lib/app/utils';
 import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({ params, parent }) => {
 	const { world } = await parent();
-	const document = findDocument(get(world.createDocumentStore()), params.documentId);
+	const element = findEntry(get(world.createElementStore()), params.elementId);
 
-	if (!document) {
+	if (!element) {
 		throw error(404, {
-			message: "something went wrong, this document either doesn't exist or is corrupted"
+			message: "something went wrong, this element either doesn't exist or is corrupted"
 		});
 	}
 
 	return {
-		id: params.documentId
+		elementId: params.elementId
 	};
 }) satisfies PageLoad;

@@ -18,6 +18,7 @@ export function openWorldDB(
 			db.createObjectStore('documents', { keyPath: 'id' });
 			db.createObjectStore('tags', { keyPath: 'id' });
 			db.createObjectStore('elements', { keyPath: 'id' });
+			db.createObjectStore('history', { keyPath: 'id' });
 		},
 		...options
 	});
