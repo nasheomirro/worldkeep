@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import type { EditableEntry, WorldDocument, WorldTag } from './types';
+import type { EditableEntry, WorldDocument, WorldTag } from './app.types';
 
 export function createTagObject(name: string): WorldTag {
 	return {

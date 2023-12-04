@@ -7,7 +7,7 @@ import type {
 	WorldDB,
 	WorldElement,
 	HistoryItem
-} from './types';
+} from './app.types';
 
 import { nanoid } from 'nanoid';
 import { getContext, setContext } from 'svelte';

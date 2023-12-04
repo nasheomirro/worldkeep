@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DisplayListItem from '$components/CardListItem.svelte';
 	import Button from '$components/Button.svelte';
-	import type { WorldElement } from '$stores/types';
+	import type { WorldElement } from '$stores/app.types';
 	import { getWorldContext } from '$stores';
 
 	type Props = { element: WorldElement; prepend?: string };

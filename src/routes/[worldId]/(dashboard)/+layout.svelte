@@ -2,7 +2,7 @@
 	import Container from '$components/Container.svelte';
 	import Navbar from '$components/Navbar.svelte';
 	import { getWorldList } from '$stores';
-	import type { WorldMeta } from '$stores/types';
+	import type { WorldMeta } from '$stores/app.types';
 	import type { LayoutData } from './$types';
 
 	let { data } = $props<{ data: LayoutData }>();

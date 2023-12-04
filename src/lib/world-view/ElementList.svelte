@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ElementListItem from './ElementListItem.svelte';
-	import type { WorldElement } from '$stores/types';
+	import type { WorldElement } from '$stores/app.types';
 	import DisplayList from '$components/CardList.svelte';
 	import CardListButton from '$components/CardListButton.svelte';
 	import { getWorldContext } from '$stores';

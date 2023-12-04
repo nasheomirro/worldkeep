@@ -1,5 +1,5 @@
 import { openDB, type OpenDBCallbacks } from 'idb';
-import type { WorldDB, WorldMetaDB } from './types';
+import type { WorldDB, WorldMetaDB } from './app.types';
 
 export function openWorldMetaDB() {
 	return openDB<WorldMetaDB>('worldnames', 1, {

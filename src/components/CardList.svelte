@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
-	import type { GetProps, RequiredChildren } from '$elements/utils';
+	import type { GetProps, RequiredChildren } from '$elements/elements.utils';
 
 	type Props = GetProps<HTMLAttributes<HTMLUListElement>, RequiredChildren>;
 	const { children, ...rest } = $props<Props>();

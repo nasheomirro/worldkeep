@@ -2,7 +2,7 @@
 	import DisplayListItem from '$components/CardListItem.svelte';
 	import Button from '$components/Button.svelte';
 	import { getWorldList } from '$stores';
-	import type { WorldMeta } from '$stores/types';
+	import type { WorldMeta } from '$stores/app.types';
 
 	type Props = {
 		world: WorldMeta;

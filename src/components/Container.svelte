@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getClassName, type GetProps, type RequiredChildren } from '$elements/utils';
+	import { getClassName, type GetProps, type RequiredChildren } from '$elements/elements.utils';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	type OwnProps = {

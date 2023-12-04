@@ -1,4 +1,4 @@
-import type { WorldElement } from '$stores/types';
+import type { WorldElement } from '$stores/app.types';
 import { nanoid } from 'nanoid';
 import type { ActionParams } from '.';
 import { get } from 'svelte/store';

@@ -29,7 +29,7 @@ export function getAllActiveMarkTypes(state: EditorState) {
 	}
 }
 
-export function updateEntryWithRootNode(oldEntry: WorldDocument, doc: EditorNode): EditableEntry {
+export function updateEntryWithRootNode(oldEntry: EditableEntry, doc: EditorNode): EditableEntry {
 	// this works in the presumption that the schema will always have a heading
 	const content = doc.toJSON();
 	const title = doc.firstChild?.textContent || '';
@@ -37,8 +37,8 @@ export function updateEntryWithRootNode(oldEntry: WorldDocument, doc: EditorNode
 
 	let description = doc.maybeChild(1)?.textContent || '';
 
-	if (description.length > 300) {
-		let slice = description.slice(0, 297);
+	if (description.length > 200) {
+		let slice = description.slice(0, 197);
 		slice += '...';
 		description = slice;
 	}

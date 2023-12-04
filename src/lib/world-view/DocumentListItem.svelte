@@ -2,7 +2,7 @@
 	import DisplayListItem from '$components/CardListItem.svelte';
 	import Button from '$components/Button.svelte';
 	import { getWorldContext } from '$stores';
-	import type { WorldDocument } from '$stores/types';
+	import type { WorldDocument } from '$stores/app.types';
 
 	type Props = { document: WorldDocument; prepend?: string };
 	const { document, prepend = '' } = $props<Props>();

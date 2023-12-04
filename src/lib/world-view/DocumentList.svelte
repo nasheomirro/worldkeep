@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { sortDocuments } from '$stores/utils';
+	import { sortDocuments } from '$stores/app.utils';
 	import DocumentListItem from './DocumentListItem.svelte';
-	import type { WorldDocument } from '$stores/types';
+	import type { WorldDocument } from '$stores/app.types';
 
 	import CardListButton from '$components/CardListButton.svelte';
 	import DisplayList from '$components/CardList.svelte';

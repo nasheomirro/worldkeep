@@ -1,4 +1,4 @@
-import type { HistoryItem, WorldDB, WorldDocument, WorldElement, WorldTag } from '$stores/types';
+import type { HistoryItem, WorldDB, WorldDocument, WorldElement, WorldTag } from '$stores/app.types';
 import type { IDBPDatabase } from 'idb';
 import type { Writable } from 'svelte/store';
 import { createDocumentActions } from './documents';

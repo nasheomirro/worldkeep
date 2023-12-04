@@ -1,5 +1,5 @@
-import type { WorldTag } from '$stores/types';
-import { createTagObject } from '$stores/utils';
+import type { WorldTag } from '$stores/app.types';
+import { createTagObject } from '$stores/app.utils';
 import { get } from 'svelte/store';
 import type { ActionParams } from '.';
 

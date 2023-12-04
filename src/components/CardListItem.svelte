@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GetProps } from '$elements/utils';
+	import type { GetProps } from '$elements/elements.utils';
 	import type { Snippet } from 'svelte';
 	import type { HTMLLiAttributes } from 'svelte/elements';
 

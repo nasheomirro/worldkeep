@@ -1,4 +1,4 @@
-import type { WorldDocument } from '$stores/types';
+import type { WorldDocument } from '$stores/app.types';
 import { nanoid } from 'nanoid';
 import type { ActionParams } from '.';
 import { get } from 'svelte/store';

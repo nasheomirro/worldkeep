@@ -1,4 +1,4 @@
-import { findEntry } from '$lib/app/utils';
+import { findEntry } from '$lib/app/app.utils';
 import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { error } from '@sveltejs/kit';

@@ -1,4 +1,4 @@
-import type { HistoryItem } from '$stores/types';
+import type { HistoryItem } from '$stores/app.types';
 import { get } from 'svelte/store';
 import type { ActionParams } from '.';
 

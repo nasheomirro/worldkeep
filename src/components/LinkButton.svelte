@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
-	import { getClassName, type GetProps, type RequiredChildren } from '$elements/utils';
+	import { getClassName, type GetProps, type RequiredChildren } from '$elements/elements.utils';
 	import type { ButtonMods } from '$elements/types/button.types';
 
 	type OwnProps = RequiredChildren & ButtonMods;
