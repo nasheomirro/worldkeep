@@ -1,7 +1,7 @@
 import { findEntry } from '$lib/app/app.utils';
-import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { error } from '@sveltejs/kit';
+import type { LayoutLoad } from './$types';
 
 export const load = (async ({ params, parent }) => {
 	const { world } = await parent();
@@ -16,4 +16,4 @@ export const load = (async ({ params, parent }) => {
 	return {
 		elementId: params.elementId
 	};
-}) satisfies PageLoad;
+}) satisfies LayoutLoad;
